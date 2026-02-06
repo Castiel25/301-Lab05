@@ -58,18 +58,23 @@ public class MainActivity extends AppCompatActivity implements CityDialogFragmen
         citiesRef.addSnapshotListener((value, error) -> {
             if (error != null) {
                 Log.e("Firestore", error.toString());
+                return;
             }
-            if (value != null && value.isEmpty()) {
-                cityArrayList.clear();
-                for (QueryDocumentSnapshot snapshot : value) {
-                    String name = snapshot.getString("name");
-                    String province = snapshot.getString("province");
-                    cityArrayAdapter.add(new City(name, province));
+            if (value == null) return;
+
+            cityArrayList.clear();
+
+            for (QueryDocumentSnapshot snapshot : value) {
+                String name = snapshot.getString("name");
+                String province = snapshot.getString("province");
+
+                if (name != null || province != null) {
+                cityArrayList.add(new City(name, province));
                 }
-                cityArrayAdapter.notifyDataSetChanged();
             }
+                cityArrayAdapter.notifyDataSetChanged();
         });
-        addDummyData();
+        // addDummyData();
 
         // set listeners
         addCityButton.setOnClickListener(view -> {
