@@ -2,16 +2,17 @@
 
 ## Student Details
 
-- **Full Name:** `<Enter name>`
-- **CCID:** `<Enter ccid>`
+- **Full Name:** `<Yuze Liaocheng>`
+- **CCID:** `<LIAOCHEN>`
 
 ## References and Resources
 
-List any resources used here, or simply put `N/A` if not applicable.
+followed instructions
+the .json file is not included as github mention api key leaked.
 
 ## Verbal Collaboration
 
 | Student Name | CCID     |
 | ------------ | -------- |
-| `<example1>` | `<CCID>` |
-| `<example2>` | `<CCID>` |
+| `<N/A>` | `<N/A>` |
+| `<N/A>` | `<N/A>` |
