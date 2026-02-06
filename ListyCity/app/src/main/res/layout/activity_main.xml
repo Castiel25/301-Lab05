@@ -22,6 +22,17 @@
         android:id="@+id/listviewCities"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAddCity" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonAddCity"
+        app:layout_constraintBottom_toTopOf="@+id/instructionText"/>
+
+    <TextView
+        android:id="@+id/instructionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="click to edit and long press to delete"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
