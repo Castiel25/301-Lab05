@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class CityDialogFragment extends DialogFragment {
     interface CityDialogListener {
-        void updateCity(City city, String title, String year);
+        void updateCity(City city, String cityName, String cityProvince);
         void addCity(City city);
     }
     private CityDialogListener listener;
@@ -44,7 +44,7 @@ public class CityDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = getLayoutInflater().inflate(R.layout.fragment_city_details, null);
-        EditText editMovieName = view.findViewById(R.id.edit_city_name);
+        EditText editCityName = view.findViewById(R.id.edit_city_name);
         EditText editMovieYear = view.findViewById(R.id.edit_province);
 
         String tag = getTag();
@@ -54,7 +54,7 @@ public class CityDialogFragment extends DialogFragment {
         if (Objects.equals(tag, "City Details") && bundle != null){
             city = (City) bundle.getSerializable("City");
             assert city != null;
-            editMovieName.setText(city.getName());
+            editCityName.setText(city.getName());
             editMovieYear.setText(city.getProvince());
         }
         else {
@@ -66,12 +66,12 @@ public class CityDialogFragment extends DialogFragment {
                 .setTitle("City Details")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("Continue", (dialog, which) -> {
-                    String title = editMovieName.getText().toString();
-                    String year = editMovieYear.getText().toString();
+                    String cityName = editCityName.getText().toString();
+                    String cityProvince = editMovieYear.getText().toString();
                     if (Objects.equals(tag, "City Details")) {
-                        listener.updateCity(city, title, year);
+                        listener.updateCity(city, cityName, cityProvince);
                     } else {
-                        listener.addCity(new City(title, year));
+                        listener.addCity(new City(cityName, cityProvince));
                     }
                 })
                 .create();

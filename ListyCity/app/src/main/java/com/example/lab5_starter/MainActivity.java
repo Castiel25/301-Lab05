@@ -1,5 +1,6 @@
 package com.example.lab5_starter;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -69,10 +70,10 @@ public class MainActivity extends AppCompatActivity implements CityDialogFragmen
                 String province = snapshot.getString("province");
 
                 if (name != null || province != null) {
-                cityArrayList.add(new City(name, province));
+                    cityArrayList.add(new City(name, province));
                 }
             }
-                cityArrayAdapter.notifyDataSetChanged();
+            cityArrayAdapter.notifyDataSetChanged();
         });
         // addDummyData();
 
@@ -88,12 +89,30 @@ public class MainActivity extends AppCompatActivity implements CityDialogFragmen
             cityDialogFragment.show(getSupportFragmentManager(), "City Details");
         });
 
+        cityListView.setOnItemLongClickListener((adapterView, view, i, l) -> {
+            City city = cityArrayAdapter.getItem(i);
+            if (city == null) {
+                return true;
+            }
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Delete City")
+                    .setMessage("Permanently delete " + city.getName() + "?")
+                    .setPositiveButton("Delete", (dialog, which) -> {
+                        deleteCity(city);
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+            return true;
+        });
+
     }
 
     @Override
-    public void updateCity(City city, String title, String year) {
-        city.setName(title);
-        city.setProvince(year);
+    public void updateCity(City city, String cityName, String cityProvince) {
+
+
+        city.setName(cityName);
+        city.setProvince(cityProvince);
 
         cityArrayAdapter.notifyDataSetChanged();
 
@@ -107,17 +126,30 @@ public class MainActivity extends AppCompatActivity implements CityDialogFragmen
 
         DocumentReference docRef = citiesRef.document(city.getName());
         docRef.set(city).addOnSuccessListener(unused ->
-                        Log.d("FireStore", "City added successfully written!" + city.getName()))
+                        Log.d("FireStore", "City added successfully!" + city.getName()))
                 .addOnFailureListener(e ->
-                        Log.e("FireStore", "Failed to write city", e));
+                        Log.e("FireStore", "Failed to add city", e));
+    }
+
+    public void deleteCity(City city) {
+        cityArrayList.remove(city);
+        cityArrayAdapter.notifyDataSetChanged();
+        citiesRef.document(city.getName()).delete()
+                .addOnSuccessListener(unused ->
+                        Log.d("FireStore", city.getName() + " successfully deleted!"))
+                .addOnFailureListener(e ->
+                        Log.e("FireStore", "Failed to delete city", e));
     }
 
 
-    public void addDummyData() {
+
+
+
+    /*public void addDummyData() {
         City m1 = new City("Edmonton", "AB");
         City m2 = new City("Vancouver", "BC");
         cityArrayList.add(m1);
         cityArrayList.add(m2);
         cityArrayAdapter.notifyDataSetChanged();
-    }
+    }*/
 }
