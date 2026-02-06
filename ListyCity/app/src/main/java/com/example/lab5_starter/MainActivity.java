@@ -69,13 +69,13 @@ public class MainActivity extends AppCompatActivity implements CityDialogFragmen
                 String name = snapshot.getString("name");
                 String province = snapshot.getString("province");
 
-                if (name != null || province != null) {
+                if (name != null && province != null) {
                     cityArrayList.add(new City(name, province));
                 }
             }
             cityArrayAdapter.notifyDataSetChanged();
         });
-        // addDummyData();
+
 
         // set listeners
         addCityButton.setOnClickListener(view -> {
@@ -109,18 +109,15 @@ public class MainActivity extends AppCompatActivity implements CityDialogFragmen
 
     @Override
     public void updateCity(City city, String cityName, String cityProvince) {
-
-
-        city.setName(cityName);
-        city.setProvince(cityProvince);
-
-        cityArrayAdapter.notifyDataSetChanged();
+        deleteCity(city);
+        addCity(new City(cityName, cityProvince));
 
         // Updating the database using delete + addition
     }
 
     @Override
     public void addCity(City city) {
+
         cityArrayList.add(city);
         cityArrayAdapter.notifyDataSetChanged();
 
@@ -141,15 +138,5 @@ public class MainActivity extends AppCompatActivity implements CityDialogFragmen
                         Log.e("FireStore", "Failed to delete city", e));
     }
 
-
-
-
-
-    /*public void addDummyData() {
-        City m1 = new City("Edmonton", "AB");
-        City m2 = new City("Vancouver", "BC");
-        cityArrayList.add(m1);
-        cityArrayList.add(m2);
-        cityArrayAdapter.notifyDataSetChanged();
-    }*/
 }
+
